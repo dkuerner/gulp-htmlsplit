@@ -43,8 +43,8 @@ function split(opts) {
       // create a new Vinyl file for each split with content in it
       splits.forEach(function(s) {
         var newContents = contents.substr(s.start, s.end - s.start);
-        contents = contents.replace(newContents,'');
         if (newContents.length > 0 && s.name != stop) {
+            contents = contents.replace(newContents,'');
           this.push(new File({
             cwd: file.cwd,
             base: file.base,
