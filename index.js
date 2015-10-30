@@ -39,6 +39,9 @@ function split(opts) {
       if (splits.length == 0) {
         return cb(null, file);
       }
+        
+        var _splits = splits,
+                _contents = contents;
 
       // create a new Vinyl file for each split with content in it
       splits.forEach(function(s) {
@@ -53,8 +56,17 @@ function split(opts) {
           }));
         }
       }.bind(this));
+        
+        // extract splits
+            _splits.forEach(function (s) {
+                var replacethis = contents.substr(s.start, s.end - s.start);
+                if (replacethis.length > 0 && s.name != stop) {
+                    _contents = _contents.replace(replacethis, '', "i");
+                }
+            }.bind(this));
 
-      file.contents = new Buffer(contents);
+
+      file.contents = new Buffer(_contents);
 
       return cb(null, file);
     }
